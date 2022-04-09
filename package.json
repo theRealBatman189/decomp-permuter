@@ -1,0 +1,99 @@
+{
+  "name": "run-decomp-permuter",
+  "publisher": "therealbatman189",
+	"displayName": "Run Decomp Permuter",
+	"author": {"name": "Batman", "email": "therealbatman189@gmail.com"},
+	"description": "Runs the permuter for the paper mario decomp from selected function name",
+	"version": "0.0.1",
+	"engines": {
+		"vscode": "^1.66.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+        "onCommand:run-decomp-permuter.import",
+		"onCommand:run-decomp-permuter.run"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "run-decomp-permuter.import",
+				"title": "Import To Permuter"
+			},
+			{
+				"command": "run-decomp-permuter.run",
+				"title": "Run Permuter"
+			}
+		],
+		"menus": {
+			"editor/context": [{
+				"command": "run-decomp-permuter.import",
+				"when": "editorHasSelection"
+		  },
+		{
+			"command": "run-decomp-permuter.run",
+				"when": "editorHasSelection"
+		}]
+		},
+		"keybindings": [
+			{
+			  "command": "run-decomp-permuter.import",
+			  "key": "ctrl+alt+i",
+			  "mac": "cmd+alt+i",
+			  "when": "editorHasSelection"
+			},
+			{
+				"command": "run-decomp-permuter.run",
+				"key": "ctrl+alt+p",
+				"mac": "cmd+alt+p",
+				"when": "editorHasSelection"
+			}
+		],
+		"configuration": {
+			"title": "PermuterCores",
+			"properties": {
+				"run-decomp-permuter.cores":{
+					"type": "number",
+					"default": -10,
+					"description": "Sets the number of cores for running the permuter",
+					"scope": "application"
+				},
+				"run-decomp-permuter.import-flags":{
+					"type": "string",
+					"default": "",
+					"description": "Sets flags to run for import",
+					"scope": "application"
+				},
+				"run-decomp-permuter.run-flags":{
+					"type": "string",
+					"default": "",
+					"description": "Sets flags for run",
+					"scope": "application"
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile && npm run lint",
+		"lint": "eslint src --ext ts",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.66.0",
+		"@types/glob": "^7.2.0",
+		"@types/mocha": "^9.1.0",
+		"@types/node": "14.x",
+		"@typescript-eslint/eslint-plugin": "^5.16.0",
+		"@typescript-eslint/parser": "^5.16.0",
+		"eslint": "^8.11.0",
+		"glob": "^7.2.0",
+		"mocha": "^9.2.2",
+		"typescript": "^4.5.5",
+		"@vscode/test-electron": "^2.1.3"
+	}
+}
