@@ -1,10 +1,11 @@
 {
   "name": "run-decomp-permuter",
-  "publisher": "therealbatman189",
+  "publisher": "bmaninc",
 	"displayName": "Run Decomp Permuter",
 	"author": {"name": "Batman", "email": "therealbatman189@gmail.com"},
 	"description": "Runs the permuter for the paper mario decomp from selected function name",
-	"version": "0.0.1",
+	"version": "0.0.4",
+	"icon": "p.png",
 	"engines": {
 		"vscode": "^1.66.0"
 	},

@@ -31,24 +31,15 @@ export function activate(context: vscode.ExtensionContext) {
 
 		console.log(fileUri.toJSON());
 		
-		try{
-			const term = vscode.window.activeTerminal;
-			term?.show();
-			term?.sendText("WORKING_DIR=`pwd`");
-        	term?.sendText("cd ../decomp-permuter/");
-			term?.sendText("rm -rf nonmatchings/" + fileSelection + "/");
-			term?.sendText("./import.py ../papermario/src/" + filePath?.substring(filePath.indexOf("/")+1) + " ../papermario/ver/us/asm/nonmatchings/" + filePath2?.substring(filePath2.indexOf("/")+1) + "/" + fileSelection + ".s " + importFlags);
-			
-			term?.sendText("cd $WORKING_DIR");
-		} catch(term){
-			const newTerm = vscode.window.createTerminal("New Term");
-			newTerm?.show();
-			newTerm?.sendText("WORKING_DIR=`pwd`");
-        	newTerm?.sendText("cd ../decomp-permuter/");
-			newTerm?.sendText("rm -rf nonmatchings/" + fileSelection + "/");
-			newTerm?.sendText("./import.py ../papermario/src/" + filePath?.substring(filePath.indexOf("/")+1) + " ../papermario/ver/us/asm/nonmatchings/" + filePath2?.substring(filePath2.indexOf("/")+1) + "/" + fileSelection + ".s " + importFlags);
-			newTerm?.sendText("cd $WORKING_DIR");
-		}
+		
+		const newTerm = vscode.window.createTerminal("New Term");
+		newTerm?.show();
+		newTerm?.sendText("WORKING_DIR=`pwd`");
+		newTerm?.sendText("cd ../decomp-permuter/");
+		newTerm?.sendText("rm -rf nonmatchings/" + fileSelection + "/");
+		newTerm?.sendText("./import.py ../papermario/src/" + filePath?.substring(filePath.indexOf("/")+1) + " ../papermario/ver/us/asm/nonmatchings/" + filePath2?.substring(filePath2.indexOf("/")+1) + "/" + fileSelection + ".s " + importFlags);
+		newTerm?.sendText("cd $WORKING_DIR");
+		
 	});
 
 	let disposable2 = vscode.commands.registerCommand('run-decomp-permuter.run', () => {
