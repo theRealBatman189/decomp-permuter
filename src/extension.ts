@@ -18,28 +18,17 @@ export function activate(context: vscode.ExtensionContext) {
 		const editor = vscode.window.activeTextEditor;
         let filePath = editor?.document.uri.fsPath.substring(editor?.document.uri.fsPath.indexOf("src"));
 		let filePath2 = filePath?.substring(0, filePath.length-2);
-
-		
         let fileSelection = editor?.document.getText(editor.selection);
 		let fileUri = vscode.Uri.file("../decomp-permuter/nonmatchings/");
-
-		var importFlags  = vscode.workspace.getConfiguration("run-decomp-permuter").get("import-flags");
-		
-
-		
-
-
-		console.log(fileUri.toJSON());
-		
-		
+		var importFlags  = vscode.workspace.getConfiguration("run-decomp-permuter").get("import-flags");		
 		const newTerm = vscode.window.createTerminal("New Term");
+
 		newTerm?.show();
 		newTerm?.sendText("WORKING_DIR=`pwd`");
 		newTerm?.sendText("cd ../decomp-permuter/");
 		newTerm?.sendText("rm -rf nonmatchings/" + fileSelection + "/");
 		newTerm?.sendText("./import.py ../papermario/src/" + filePath?.substring(filePath.indexOf("/")+1) + " ../papermario/ver/us/asm/nonmatchings/" + filePath2?.substring(filePath2.indexOf("/")+1) + "/" + fileSelection + ".s " + importFlags);
 		newTerm?.sendText("cd $WORKING_DIR");
-		
 	});
 
 	let disposable2 = vscode.commands.registerCommand('run-decomp-permuter.run', () => {
@@ -57,6 +46,7 @@ export function activate(context: vscode.ExtensionContext) {
 				
 				vscode.window.showInputBox(options).then(value => {	
 					if (!value) {return;}
+
 					cores = parseInt(value);
 					vscode.workspace.getConfiguration("run-decomp-permuter").update("cores", parseInt(value),true);
 					const editor = vscode.window.activeTextEditor;
@@ -64,6 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
 					let filePath2 = filePath?.substring(0, filePath.length-2);
 					let fileSelection = editor?.document.getText(editor.selection);
 					const newTerm = vscode.window.createTerminal(fileSelection);
+
 					newTerm?.sendText("echo ENTER NUMBER OF CORES");
 					newTerm?.show();
 					newTerm?.sendText("WORKING_DIR=`pwd`");
@@ -73,15 +64,14 @@ export function activate(context: vscode.ExtensionContext) {
 				});
 
 			}else{
-				
-				const editor = vscode.window.activeTextEditor;
+					const editor = vscode.window.activeTextEditor;
 					let filePath = editor?.document.uri.fsPath.substring(editor?.document.uri.fsPath.indexOf("src"));
 					let filePath2 = filePath?.substring(0, filePath.length-2);
 					let fileSelection = editor?.document.getText(editor.selection);
 					const newTerm = vscode.window.createTerminal(fileSelection);
+
 					newTerm?.sendText("echo ENTER NUMBER OF CORES");
 					newTerm?.show();
-					console.log(cores);
 					newTerm?.sendText("WORKING_DIR=`pwd`");
 					newTerm?.sendText("cd ../decomp-permuter/");
 					newTerm?.sendText("./permuter.py -j" + cores +" nonmatchings/" + fileSelection + "/ " + runFlags);
