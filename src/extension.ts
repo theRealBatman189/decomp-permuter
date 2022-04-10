@@ -10,8 +10,13 @@ export function activate(context: vscode.ExtensionContext) {
 	var decompPath = "cd ../decomp-permuter/";
 	var configString = "run-decomp-permuter";
 	var nonMatchingsString = " nonmatchings/";
-
+	var workingDIR = "WORKING_DIR=`pwd`";
+	var revertWorkingDIR = "cd $WORKING_DIR";
+	
 	let disposable = vscode.commands.registerCommand('run-decomp-permuter.import', () => {
+
+		var importDIR = "./import.py ../papermario/src/";
+		var nonMatchingsDIR = " ../papermario/ver/us/asm/nonmatchings/";
 
 		const editor = vscode.window.activeTextEditor;
         let filePath = editor?.document.uri.fsPath.substring(editor?.document.uri.fsPath.indexOf("src"));
@@ -21,18 +26,18 @@ export function activate(context: vscode.ExtensionContext) {
 		const newTerm = vscode.window.createTerminal("IMPORT-" + fileSelection);
 
 		newTerm?.show();
-		newTerm?.sendText("WORKING_DIR=`pwd`");
+		newTerm?.sendText(workingDIR);
 		newTerm?.sendText(decompPath);
 		newTerm?.sendText("rm -rf" + nonMatchingsString + fileSelection + "/");
-		newTerm?.sendText("./import.py ../papermario/src/" + filePath?.substring(filePath.indexOf("/")+1) + " ../papermario/ver/us/asm/nonmatchings/" + filePath2?.substring(filePath2.indexOf("/")+1) + "/" + fileSelection + ".s " + importFlags);
-		newTerm?.sendText("cd $WORKING_DIR");
+		newTerm?.sendText(importDIR + filePath?.substring(filePath.indexOf("/")+1) + nonMatchingsDIR + filePath2?.substring(filePath2.indexOf("/")+1) + "/" + fileSelection + ".s " + importFlags);
+		newTerm?.sendText(revertWorkingDIR);
 	});
 
 	let disposable2 = vscode.commands.registerCommand('run-decomp-permuter.run', () => {
 		
+		var permuterString = "./permuter.py -j";
 		var cores = vscode.workspace.getConfiguration(configString).get("cores");
 		var runFlags  =  vscode.workspace.getConfiguration(configString).get("run-flags");
-		var permuterString = "./permuter.py -j";
 		let options: vscode.InputBoxOptions = {
 			prompt: "Label: ",
 			placeHolder: "Enter Cores"
@@ -52,10 +57,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 					newTerm?.sendText("echo ENTER NUMBER OF CORES");
 					newTerm?.show();
-					newTerm?.sendText("WORKING_DIR=`pwd`");
+					newTerm?.sendText(workingDIR);
 					newTerm?.sendText(decompPath);
 					newTerm?.sendText(permuterString + cores + nonMatchingsString + fileSelection + "/ " + runFlags);
-					newTerm?.sendText("cd $WORKING_DIR");
+					newTerm?.sendText(revertWorkingDIR);
 				});
 
 			}else{
@@ -65,10 +70,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 					newTerm?.sendText("echo ENTER NUMBER OF CORES");
 					newTerm?.show();
-					newTerm?.sendText("WORKING_DIR=`pwd`");
+					newTerm?.sendText(workingDIR);
 					newTerm?.sendText(decompPath);
 					newTerm?.sendText(permuterString + cores + nonMatchingsString + fileSelection + "/ " + runFlags);
-					newTerm?.sendText("cd $WORKING_DIR");
+					newTerm?.sendText(revertWorkingDIR);
 			}
 			
 		}
