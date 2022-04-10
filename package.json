@@ -4,7 +4,7 @@
 	"displayName": "Run Decomp Permuter",
 	"author": {"name": "Batman", "email": "therealbatman189@gmail.com"},
 	"description": "Runs the permuter for the paper mario decomp from selected function name",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"icon": "p.png",
 	"engines": {
 		"vscode": "^1.66.0"
